@@ -63,9 +63,27 @@ int main()
             prop.Render(knight.getWorldPos());
         }
 
+        // check if all enemies are dead
+        int enemiesLeft{0};
+        for (auto &enemy : enemies)
+        {
+            if (enemy->getAlive())
+                enemiesLeft++;
+        }
+        // if no enemies left, display win text
+        if (enemiesLeft == 0)
+        {
+            DrawText("You Win!", windowWidth / 2 - MeasureText("You Win!", 40) / 2, windowHeight / 2 - 60, 40, GREEN);
+            EndDrawing();
+            continue;
+        }
+
         // draw and update enemies
         for (auto &enemy : enemies)
         {
+            // skip dead enemies
+            if (!enemy->getAlive())
+                continue;
             enemy->tick(GetFrameTime());
         }
 
@@ -93,6 +111,10 @@ int main()
         {
             for (auto &enemy : enemies)
             {
+                // skip dead enemies
+                if (!enemy->getAlive())
+                    continue;
+
                 if (CheckCollisionRecs(enemy->getCollissionRec(), knight.getWeaponRec()))
                 {
                     enemy->setAlive(false);
