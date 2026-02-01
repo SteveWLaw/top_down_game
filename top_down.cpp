@@ -20,13 +20,12 @@ int main()
 
     Prop props[2]{
         Prop{Vector2{600.f, 300.f}, LoadTexture("textures/nature_tileset/Rock.png")},
-        Prop{Vector2{400.f, 500.f}, LoadTexture("textures/nature_tileset/Log.png")}
-    };
+        Prop{Vector2{400.f, 500.f}, LoadTexture("textures/nature_tileset/Log.png")}};
 
     Enemy goblin{Vector2{500.f, 400.f},
-        LoadTexture("textures/characters/goblin_idle_spritesheet.png"),
-        LoadTexture("textures/characters/goblin_run_spritesheet.png")
-    };
+                 LoadTexture("textures/characters/goblin_idle_spritesheet.png"),
+                 LoadTexture("textures/characters/goblin_run_spritesheet.png")};
+    goblin.setTarget(&knight);
 
     SetTargetFPS(60);
 
@@ -44,7 +43,7 @@ int main()
             prop.Render(knight.getWorldPos());
         }
 
-        goblin.tick(GetFrameTime()); 
+        goblin.tick(GetFrameTime());
 
         knight.tick(GetFrameTime());
         // check map bounds, (manually shrink right and bottom for cliff edge texture there)
