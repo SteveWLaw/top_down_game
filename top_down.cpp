@@ -3,6 +3,7 @@
 #include "Character.h"
 #include "Prop.h"
 #include "Enemy.h"
+#include <string>
 
 int main()
 {
@@ -22,10 +23,29 @@ int main()
         Prop{Vector2{600.f, 300.f}, LoadTexture("textures/nature_tileset/Rock.png")},
         Prop{Vector2{400.f, 500.f}, LoadTexture("textures/nature_tileset/Log.png")}};
 
-    Enemy goblin{Vector2{500.f, 400.f},
-                 LoadTexture("textures/characters/goblin_idle_spritesheet.png"),
-                 LoadTexture("textures/characters/goblin_run_spritesheet.png")};
-    goblin.setTarget(&knight);
+    Enemy goblins[2]{
+        Enemy{Vector2{500.f, 200.f},
+              LoadTexture("textures/characters/goblin_idle_spritesheet.png"),
+              LoadTexture("textures/characters/goblin_run_spritesheet.png")},
+        Enemy{Vector2{1200.f, 800.f},
+              LoadTexture("textures/characters/goblin_idle_spritesheet.png"),
+              LoadTexture("textures/characters/goblin_run_spritesheet.png")}};
+
+    Enemy slimes[2]{
+        Enemy{Vector2{800.f, 600.f},
+              LoadTexture("textures/characters/slime_idle_spritesheet.png"),
+              LoadTexture("textures/characters/slime_run_spritesheet.png")},
+        Enemy{Vector2{1000.f, 1200.f},
+              LoadTexture("textures/characters/slime_idle_spritesheet.png"),
+              LoadTexture("textures/characters/slime_run_spritesheet.png")}};
+
+    Enemy *enemies[] = {&goblins[0], &goblins[1], &slimes[0], &slimes[1]};
+
+    // set enemy targets
+    for (auto &enemy : enemies)
+    {
+        enemy->setTarget(&knight);
+    }
 
     SetTargetFPS(60);
 
@@ -43,7 +63,11 @@ int main()
             prop.Render(knight.getWorldPos());
         }
 
-        goblin.tick(GetFrameTime());
+        // draw and update enemies
+        for (auto &enemy : enemies)
+        {
+            enemy->tick(GetFrameTime());
+        }
 
         knight.tick(GetFrameTime());
         // check map bounds, (manually shrink right and bottom for cliff edge texture there)
@@ -64,13 +88,29 @@ int main()
             }
         }
 
-        // attack goblin
+        // attack enemies
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsKeyPressed(KEY_SPACE))
         {
-            if (CheckCollisionRecs(goblin.getCollissionRec(), knight.getWeaponRec()))
+            for (auto &enemy : enemies)
             {
-                goblin.setAlive(false);
+                if (CheckCollisionRecs(enemy->getCollissionRec(), knight.getWeaponRec()))
+                {
+                    enemy->setAlive(false);
+                }
             }
+        }
+
+        // draw health or death messageS
+        if (!knight.getAlive())
+        {
+            DrawText("You Died!", windowWidth / 2 - MeasureText("You Died!", 40) / 2, windowHeight / 2 - 20, 40, RED);
+            EndDrawing();
+            continue;
+        }
+        else
+        {
+            std::string healthText = "Health: " + std::to_string(static_cast<int>(knight.getHealth()));
+            DrawText(healthText.c_str(), 20, 20, 20, DARKGREEN);
         }
 
         EndDrawing();

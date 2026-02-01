@@ -12,9 +12,11 @@ public:
     virtual void tick(float deltaTime) override;
     void setTarget(Character *character) { target = character; }
     virtual Vector2 getScreenPos() override;
+
 private:
     Character *target;
     float damagePerSecond{10.f};
+    float radius{25.f}; // attack radius
+    float range{400.f}; // detection range
 };
-
 #endif
