@@ -1,3 +1,6 @@
+#ifndef ENEMY_H
+#define ENEMY_H
+
 #include "raylib.h"
 #include "BaseCharacter.h"
 #include "Character.h"
@@ -12,3 +15,5 @@ public:
 private:
     Character *target;
 };
+
+#endif

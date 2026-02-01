@@ -23,13 +23,13 @@ protected:
     // 1: facing right, -1 facing left
     float rightLeft{1.f};
     // anmimation variables
-    float runningTime{};
-    int frame{};
+    float runningTime{0.f};
+    int frame{0};
     int maxFrames{6};
     float updateTime{1.f / 12.f};
     float speed{4.f};
-    float width{};
-    float height{};
+    float width{0.f};
+    float height{0.f};
     float scale{4.f};
     Vector2 velocity{0.f, 0.f};
 };

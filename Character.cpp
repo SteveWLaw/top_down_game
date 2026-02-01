@@ -26,4 +26,55 @@ void Character::tick(float deltaTime)
     if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
         velocity.y += 1.0;
     BaseCharacter::tick(deltaTime);
+
+    Vector2 origin{0.f, 0.f};
+    Vector2 offset{0.f, 0.f};
+    float weaponRotation{0.f};
+    if (rightLeft > 0.f)
+    {
+       origin = {0.f, static_cast<float>(weapon.height) * scale};
+       offset = {35.f, 55.f};
+       weaponCollisonRec = {
+        getScreenPos().x + offset.x,
+        getScreenPos().y + offset.y - weapon.height * scale,
+        weapon.width * scale,
+        weapon.height * scale
+       };
+       weaponRotation = 35.f;
+    }
+    else
+    {
+        origin = {static_cast<float>(weapon.width) * scale, static_cast<float>(weapon.height) * scale};
+        offset = {25.f, 55.f};
+         weaponCollisonRec = {
+          getScreenPos().x + offset.x - weapon.width * scale,
+          getScreenPos().y + offset.y - weapon.height * scale,
+          weapon.width * scale,
+          weapon.height * scale
+         };
+        weaponRotation = -35.f;
+    }
+    
+    // draw weapon
+    Rectangle source{0.f, 0.f, static_cast<float>(weapon.width) * rightLeft, static_cast<float>(weapon.height)};
+    Rectangle dest{
+        getScreenPos().x + offset.x,
+        getScreenPos().y + offset.y,
+        scale * static_cast<float>(weapon.width),
+        scale * static_cast<float>(weapon.height)};
+    DrawTexturePro(weapon, source, dest, origin, weaponRotation, WHITE);
+
+    DrawRectangleLines(
+        getCollissionRec().x,
+        getCollissionRec().y,
+        getCollissionRec().width,
+        getCollissionRec().height,
+        RED);
+
+    DrawRectangleLines(
+        weaponCollisonRec.x,
+        weaponCollisonRec.y,
+        weaponCollisonRec.width,
+        weaponCollisonRec.height,
+        BLUE);
 }
