@@ -64,6 +64,15 @@ int main()
             }
         }
 
+        // attack goblin
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsKeyPressed(KEY_SPACE))
+        {
+            if (CheckCollisionRecs(goblin.getCollissionRec(), knight.getWeaponRec()))
+            {
+                goblin.setAlive(false);
+            }
+        }
+
         EndDrawing();
     }
     UnloadTexture(map);

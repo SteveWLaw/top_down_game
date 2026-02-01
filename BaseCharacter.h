@@ -12,6 +12,8 @@ public:
     Rectangle getCollissionRec();
     virtual void tick(float deltaTime);
     virtual Vector2 getScreenPos() = 0;
+    bool getAlive() { return alive; }
+    void setAlive(bool isAlive) { alive = isAlive; }
 
 protected:
     Vector2 worldPos{};
@@ -32,6 +34,8 @@ protected:
     float height{0.f};
     float scale{4.f};
     Vector2 velocity{0.f, 0.f};
+private:
+    bool alive{true};
 };
 
 #endif
