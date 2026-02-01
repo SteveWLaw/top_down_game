@@ -11,13 +11,13 @@ public:
     void undoMovement();
     Rectangle getCollissionRec();
     virtual void tick(float deltaTime);
+    virtual Vector2 getScreenPos() = 0;
 
 protected:
     Vector2 worldPos{};
     Texture2D texture{LoadTexture("textures/characters/knight_idle_spritesheet.png")};
     Texture2D idle{LoadTexture("textures/characters/knight_idle_spritesheet.png")};
     Texture2D run{LoadTexture("textures/characters/knight_run_spritesheet.png")};
-    Vector2 screenPos{};
     Vector2 worldPosLastFrame{};
 
     // 1: facing right, -1 facing left
@@ -31,6 +31,7 @@ protected:
     float width{};
     float height{};
     float scale{4.f};
+    Vector2 velocity{0.f, 0.f};
 };
 
 #endif
