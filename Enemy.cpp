@@ -22,6 +22,13 @@ void Enemy::tick(float deltaTime)
     velocity = Vector2Subtract(target->getScreenPos(), getScreenPos());
     BaseCharacter::tick(deltaTime);
 
+    // deal damage to target if colliding
+    if (CheckCollisionRecs(getCollissionRec(), target->getCollissionRec()))
+    {
+        target->takeDamage(damagePerSecond * deltaTime);
+    }
+
+    // draw enemy collision rectangle (for debugging)
     DrawRectangleLines(
         getCollissionRec().x,
         getCollissionRec().y,

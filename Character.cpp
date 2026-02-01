@@ -63,6 +63,7 @@ void Character::tick(float deltaTime)
         scale * static_cast<float>(weapon.height)};
     DrawTexturePro(weapon, source, dest, origin, weaponRotation, WHITE);
 
+    // draw collision rectangles (for debugging)
     DrawRectangleLines(
         getCollissionRec().x,
         getCollissionRec().y,
@@ -76,4 +77,13 @@ void Character::tick(float deltaTime)
         weaponCollisonRec.width,
         weaponCollisonRec.height,
         BLUE);
+}
+
+void Character::takeDamage(float damage)
+{
+    health -= damage;
+    if (health < 0.f)
+    {
+        setAlive(false);
+    }
 }
